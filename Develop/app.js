@@ -85,33 +85,32 @@ function promptUser() {
         {
         type: 'input',
         name: 'userName',
-        message: '1. What is your userName?'
+        message: 'How many team members do you need for your project?'
         },
         {
         type: 'input',
-        name: 'id',
-        message: '2. What is your id?'
+        name: 'teamMemberOne',
+        message: 'What is the name of your team member?'
         },
         {
         type: 'input',
-        name: 'email',
-        message: '3. What is your email address?'
+        name: 'idOne',
+        message: 'What is their id?'
         },
         {
         type: 'input',
-        name: 'officeNumber',
-        message: '4. If you are a Manager, what is your office number (hit enter if not applicable to your role)?'
-        },
+        name: 'emailOne',
+        message: 'What is their email address?'
+            },
         {
-        type: 'input',
-        name: 'userName',
-        message: '5. If you are an Engineer, what is your GitHub username (hit enter if not applicable to your role)?'
-        },
-        {
-        type: 'input',
-        name: 'userName',
-        message: '5. If you are an Intern, what school do you attend (hit enter if not applicable to your role)?'
-        }
+        type: 'list',
+        name: 'roleOne',
+        message: 'What is their role?',
+        choices: [
+            'Engineer',
+            'Intern',
+            'Manager'
+        ]},
     ]);
 };
 
@@ -122,14 +121,14 @@ function promptUser() {
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
+// DONE -- Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
 
-// HINT: each employee type (manager, engineer, or intern) has slightly different
+// DONE -- HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
 
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
+// DONE -- HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
