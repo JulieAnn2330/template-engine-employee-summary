@@ -62,12 +62,6 @@
 13. Use Validatio to ensure that info provided is in proper format - strings, numbers, etc
 14. Add app to portfolio*/
 
-
-
-
-
-
-
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
