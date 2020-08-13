@@ -59,7 +59,7 @@
     b. Role
     c. Id
     d. Role-specific property (school, link to GitHub profile or office number)
-13. Use Validatio to ensure that info provided is in proper format - strings, numbers, etc
+13. Use Validation to ensure that info provided is in proper format - strings, numbers, etc
 14. Add app to portfolio*/
 
 const Manager = require("./lib/Manager");
@@ -68,7 +68,6 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-const inquirer = require('inquirer');
 const jest = require('jest');
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
@@ -79,6 +78,42 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const writeFileAsync = util.promisify(fs.writeFile);
+
+function promptUser() {
+     return inquirer.prompt([
+        {
+        type: 'input',
+        name: 'userName',
+        message: '1. What is your userName?'
+        },
+        {
+        type: 'input',
+        name: 'id',
+        message: '2. What is your id?'
+        },
+        {
+        type: 'input',
+        name: 'email',
+        message: '3. What is your email address?'
+        },
+        {
+        type: 'input',
+        name: 'officeNumber',
+        message: '4. If you are a Manager, what is your office number (hit enter if not applicable to your role)?'
+        },
+        {
+        type: 'input',
+        name: 'userName',
+        message: '5. If you are an Engineer, what is your GitHub username (hit enter if not applicable to your role)?'
+        },
+        {
+        type: 'input',
+        name: 'userName',
+        message: '5. If you are an Intern, what school do you attend (hit enter if not applicable to your role)?'
+        }
+    ]);
+};
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
