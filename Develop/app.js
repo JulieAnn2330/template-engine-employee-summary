@@ -80,16 +80,17 @@ const render = require("./lib/htmlRenderer");
 // and to create objects for each team member (using the correct classes as blueprints!)
 const writeFileAsync = util.promisify(fs.writeFile);
 
+console.log("Let's compile your team! Teams must consist of at least 1 manager and any number/combination of Engineers and Interns.")
 function promptUser() {
      return inquirer.prompt([
         {
         type: 'input',
-        name: 'userName',
+        name: 'team',
         message: 'How many team members do you need for your project?'
         },
         {
         type: 'input',
-        name: 'teamMemberOne',
+        name: 'name',
         message: 'What is the name of your team member?'
         },
         {
@@ -99,12 +100,12 @@ function promptUser() {
         },
         {
         type: 'input',
-        name: 'emailOne',
+        name: 'email,
         message: 'What is their email address?'
             },
         {
         type: 'list',
-        name: 'roleOne',
+        name: 'role',
         message: 'What is their role?',
         choices: [
             'Engineer',
