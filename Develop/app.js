@@ -69,6 +69,10 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 const jest = require('jest');
+const ValidationEmployee = require('./validation/validationEmployee');
+const ValidationEngineer = require('./validation/validationEngineer');
+const ValidationIntern = require('./validation/validationIntern');
+const ValidationManager = require('./validation/validationManager');
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -95,12 +99,12 @@ function promptUser() {
         },
         {
         type: 'input',
-        name: 'idOne',
+        name: 'id',
         message: 'What is their id?'
         },
         {
         type: 'input',
-        name: 'email,
+        name: 'email',
         message: 'What is their email address?'
             },
         {
