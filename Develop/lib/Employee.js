@@ -9,20 +9,19 @@ vi. getEmail()
 vii. getRole() -- returns 'Employee'*/
 
 class Employee {
-   constructor (name, id, email, role) {
-       this._name = name;
-       this._id = id;
-       this._email = email;
-       this._role = role
+   constructor (name, id, email) {
+       this.name = name;
+       this.id = id;
+       this.email = email;
    };
    getName() {
-    return this._name
+    return this.name
     };
     getId() {
-        return this._id;
+        return this.id;
     };
     getEmail() {
-    return this._email;
+    return this.email;
     };
     getRole() {
         return 'Employee'

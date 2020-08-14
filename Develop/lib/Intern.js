@@ -7,12 +7,12 @@ iii. getRole() -- Overridden to return Intern*/
 const Employee = require("./Employee");
 
 class Intern extends Employee {
-    constructor (name, id, email, role, school) {
-        super (name, id, email, role);
-        this._school = school 
+    constructor (name, id, email, school) {
+        super (name, id, email);
+        this.school = school 
      };
      getSchool() {
-         return this._school;
+         return this.school;
      };
      getRole() {
          return 'Intern'

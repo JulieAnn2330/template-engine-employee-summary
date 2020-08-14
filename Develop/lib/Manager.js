@@ -7,12 +7,12 @@ const Employee = require("./Employee");
 const Validation = require('../validation')
 
 class Manager extends Employee {
-    constructor (name, id, email, role, officeNumber) {
-        super (name, id, email, role);
-        this._officeNumber = officeNumber 
+    constructor (name, id, email, officeNumber) {
+        super (name, id, email);
+        this.officeNumber = officeNumber 
      };
      getOfficeNumber() {
-         return this._officeNumber;
+         return this.officeNumber;
      };
      getRole() {
          return 'Manager'
