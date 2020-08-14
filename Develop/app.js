@@ -68,11 +68,12 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const util = require("util");
 const jest = require('jest');
-const ValidationEmployee = require('./validation/validationEmployee');
-const ValidationEngineer = require('./validation/validationEngineer');
-const ValidationIntern = require('./validation/validationIntern');
-const ValidationManager = require('./validation/validationManager');
+const ValidationEmployee = require('./validation/ValidationEmployee');
+const ValidationEngineer = require('./validation/ValidationEngineer');
+const ValidationIntern = require('./validation/ValidationIntern');
+const ValidationManager = require('./validation/ValidationManager');
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -82,35 +83,42 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+console.log("Let's compile your team! Teams must consist of at least one manager and any number/combination of Engineers and Interns.")
+
 const writeFileAsync = util.promisify(fs.writeFile);
 
-console.log("Let's compile your team! Teams must consist of at least 1 manager and any number/combination of Engineers and Interns.")
 function promptUser() {
      return inquirer.prompt([
         {
-        type: 'input',
+        type: 'number',
         name: 'team',
         message: 'How many team members do you need for your project?'
         },
-        {
+
+        if (team === 0 || team === 1) {
+            console.log("A team should consist of one manager and any number/combination of Engineers and Interns. Please add at least two members to your team.")
+        };
+        
+        for (i = 2; i <= team; i++); {
+
         type: 'input',
         name: 'name',
-        message: 'What is the name of your team member?'
+        message: `What is the name of team member number $({i})?`
         },
         {
         type: 'input',
         name: 'id',
-        message: 'What is their id?'
+        message: `What is the id of team member number $({i})?`
         },
         {
         type: 'input',
         name: 'email',
-        message: 'What is their email address?'
+        message: `What is the email address of team member number $({i})?`
             },
         {
         type: 'list',
         name: 'role',
-        message: 'What is their role?',
+        message: `What is the role of team member number $({i})?`,
         choices: [
             'Engineer',
             'Intern',

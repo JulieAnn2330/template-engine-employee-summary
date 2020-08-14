@@ -4,7 +4,6 @@ i. officeNumber
 ii. getRole() --Overridden to return 'Manager'*/
 
 const Employee = require("./Employee");
-const Validation = require('../validation')
 
 class Manager extends Employee {
     constructor (name, id, email, officeNumber) {
