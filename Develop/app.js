@@ -83,49 +83,162 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+async function start() {
+
 console.log("Let's compile your team! Teams must consist of at least one manager and any number/combination of Engineers and Interns.")
 
-const writeFileAsync = util.promisify(fs.writeFile);
+let teamHTML = [];
 
-function promptUser() {
-     return inquirer.prompt([
+let teamSize;
+
+     await inquirer.prompt(
         {
         type: 'number',
         name: 'team',
         message: 'How many team members do you need for your project?'
-        },
+        }
+     )
 
-        if (team === 0 || team === 1) {
-            console.log("A team should consist of one manager and any number/combination of Engineers and Interns. Please add at least two members to your team.")
+        .then((info) => {
+
+            teamSize = info.team;
+
+        });
+
+
+        if (teamSize <= 1) {
+            console.log("A team should consist of one manager and any number/combination of Engineers and Interns. Please add at least two members to your team.");
+            return;
         };
         
-        for (i = 2; i <= team; i++); {
+    for (i = 1; i <= teamSize; i++) {
 
+            let name;
+            let id;
+            let role;
+            let email;
+
+    await inquirer.prompt([
+    {
         type: 'input',
         name: 'name',
-        message: `What is the name of team member number $({i})?`
+        message: `What is the name of team member number (${i})?`
         },
         {
         type: 'input',
         name: 'id',
-        message: `What is the id of team member number $({i})?`
+        message: `What is the id of team member number (${i})?`
         },
         {
         type: 'input',
         name: 'email',
-        message: `What is the email address of team member number $({i})?`
+        message: `What is the email address of team member number (${i})?`
             },
         {
         type: 'list',
         name: 'role',
-        message: `What is the role of team member number $({i})?`,
+        message: `What is the role of team member number (${i})?`,
         choices: [
             'Engineer',
             'Intern',
             'Manager'
         ]},
-    ]);
-};
+    ])
+
+    .then((info) => {
+
+        name = info.name;
+        id = info.id;
+        role = info.role;
+        email = info.email;
+
+    });
+
+    switch (role) {
+        case "Manager":
+
+            await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'officeNumber',
+                    message: `What is the office number of the Manager?`
+                    }
+                ])
+                
+                .then((info) => {
+
+                    const manager = new Manager
+                    (name, id, email, info.officeNumber);
+
+                teamMember = fs.readFileSync
+                ("templates/manager.html");
+
+                teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
+                });
+                break;
+
+        case "Engineer":
+
+            await inquirer.prompt([
+                {
+                type: 'input',
+                name: 'github',
+                message: `What is the Engineer's GitHub username?`
+                            }
+                ])
+                        
+                .then((info) => {
+        
+                const engineer = new Engineer
+                (name, id, email, info.github);
+        
+                teamMember = fs.readFileSync
+                ("templates/engineer.html");
+        
+                teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
+                });
+                break;
+
+            case "Intern":
+            
+                await inquirer.prompt([
+                    {
+                    type: 'input',
+                    name: 'school',
+                    message: `What school does the Intern attend?`
+                                }
+                    ])
+                            
+                    .then((info) => {
+            
+                    const intern = new Intern
+                    (name, id, email, info.school);
+            
+                    teamMember = fs.readFileSync
+                    ("templates/intern.html");
+            
+                    teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
+                });
+                break;
+    }
+}
+
+const mainHTML = fs.readFileSync("templates/main.html");
+
+teamHTML = eval('`' + mainHTML + '`');
+
+fs.writeFile("output/team.html", teamHTML, function(err) {
+
+    if (err) {
+        return console.log(err);
+    }
+
+    console.log("Success!");
+
+});
+}
+
+start();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
