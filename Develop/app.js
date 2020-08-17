@@ -174,22 +174,9 @@ let teamSize;
                     teamArray.push(manager);
                     console.log(manager)
 
-                teamMember = fs.writeFileSync
+                teamMember = fs.readFileSync
                 ("templates/manager.html");
 
-                async function init() {
-                    try {
-                                       
-                         const manager = render(info);
-                
-                         await writeFileAsync('manager.html', manager);
-                         console.log('Successfully written to manager.html');
-                         
-                    } catch (err) {
-                         console.log(err);
-                    }
-                }
-                
                 teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
                 });
                 break;
@@ -211,7 +198,7 @@ let teamSize;
                 teamArray.push(engineer);
                 console.log(engineer)
         
-                teamMember = fs.writeFileSync
+                teamMember = fs.readFileSync
                 ("templates/engineer.html");
         
                 teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
@@ -235,7 +222,7 @@ let teamSize;
                     teamArray.push(intern);
                     console.log(intern)
             
-                    teamMember = fs.writeFileSync
+                    teamMember = fs.readFileSync
                     ("templates/intern.html");
             
                     teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
