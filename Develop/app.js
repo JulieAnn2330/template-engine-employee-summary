@@ -81,13 +81,15 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
-// Write code to use inquirer to gather information about the development team members,
+//DONE -- Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 async function start() {
 
 console.log("Let's compile your team! Teams must consist of at least one manager and any number/combination of Engineers and Interns.")
 
-let teamHTML = [];
+let teamHTML = "";
+
+let teamArray = []
 
 let teamSize;
 
@@ -169,6 +171,8 @@ let teamSize;
 
                     const manager = new Manager
                     (name, id, email, info.officeNumber);
+                    teamArray.push(manager);
+                    console.log(manager)
 
                 teamMember = fs.readFileSync
                 ("templates/manager.html");
@@ -191,6 +195,8 @@ let teamSize;
         
                 const engineer = new Engineer
                 (name, id, email, info.github);
+                teamArray.push(engineer);
+                console.log(engineer)
         
                 teamMember = fs.readFileSync
                 ("templates/engineer.html");
@@ -213,6 +219,8 @@ let teamSize;
             
                     const intern = new Intern
                     (name, id, email, info.school);
+                    teamArray.push(intern);
+                    console.log(intern)
             
                     teamMember = fs.readFileSync
                     ("templates/intern.html");
@@ -222,6 +230,8 @@ let teamSize;
                 break;
     }
 }
+
+console.log(teamArray);
 
 const mainHTML = fs.readFileSync("templates/main.html");
 
@@ -239,6 +249,9 @@ fs.writeFile("output/team.html", teamHTML, function(err) {
 }
 
 start();
+
+
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
