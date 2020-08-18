@@ -108,10 +108,10 @@ let teamSize;
         });
 
 
-        if (teamSize <= 1) {
+        /*if (teamSize <= 1) {
             console.log("A team should consist of one manager and any number/combination of Engineers and Interns. Please add at least two members to your team.");
             return;
-        };
+        };*/
         
     for (i = 1; i <= teamSize; i++) {
 
@@ -171,13 +171,9 @@ let teamSize;
 
                     const manager = new Manager
                     (name, id, email, info.officeNumber);
-                    //teamArray.push(manager);
                     console.log(manager)
 
-                teamMember = fs.readFileSync
-                ("templates/manager.html");
-
-                teamArray = teamArray + "\n" + eval('`' + teamMember + '`')
+                    teamArray.push(manager);
                 });
                 break;
 
@@ -195,13 +191,9 @@ let teamSize;
         
                 const engineer = new Engineer
                 (name, id, email, info.github);
-                //teamArray.push(engineer);
                 console.log(engineer)
-        
-                teamMember = fs.readFileSync
-                ("templates/engineer.html");
-        
-                teamArray = teamArray + "\n" + eval('`' + teamMember + '`')
+                
+                teamArray.push(engineer);
                 });
                 break;
 
@@ -219,26 +211,44 @@ let teamSize;
             
                     const intern = new Intern
                     (name, id, email, info.school);
-                   //teamArray.push(intern);
                     console.log(intern)
             
-                    teamMember = fs.readFileSync
-                    ("templates/intern.html");
-            
-                    teamArray = teamArray + "\n" + eval('`' + teamMember + '`')
+                    teamArray.push(intern);
                 });
                 break;
     }
 }
-
 console.log(teamArray);
 
-
+// Reads main.html and places html in a variable
 const mainHTML = fs.readFileSync("templates/main.html");
+    
+// Use eval to implement template literals in main.html and places teamHTML inside main template
+teamHTML = eval('`'+ mainHTML +'`');
+    
+// write file to new team.html file
+fs.writeFile(outputPath, teamHTML, function(err) {
+    
+if (err) {
+    return console.log(err);
+}
+          
+    console.log("Success!");
+          
+     });
+    
+    console.log(teamHTML);
+    }
 
-teamArray = eval('`' + mainHTML + '`');
+   start();
+    
+  
+    
 
-fs.writeFile("output/team.html", teamArray, function(err) {
+
+/*teamArray = eval('`' + mainHTML + '`');
+
+fs.writeFile(outputPath, teamArray, function(err) {
 
     if (err) {
         return console.log(err);
@@ -247,9 +257,9 @@ fs.writeFile("output/team.html", teamArray, function(err) {
     console.log("Success!");
 
 });
-}
+}*/
 
-start();
+
 
 
 

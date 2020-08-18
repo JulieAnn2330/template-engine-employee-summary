@@ -1,165 +1,282 @@
-// ===== Node Packages =====
-const inquirer = require("inquirer");
-const fs = require("fs");
+/* Pseudocode
+1. Software  engineering team generator
+2. Develop prompts for team manager
+3. Create a base class called Employee
+    a.Prompts for Employee
+        i. User name
+        ii. id
+        iii. email
+        iv. getName()
+        v. getId()
+        vi. getEmail()
+        vii. getRole() -- returns 'Employee'
+    b. Prompts for Manager will also include:
+        i. officeNumber
+        ii. getRole() --Overridden to return 'Manager'
+    c. Prompts for Engineer will also include:
+        i. github --GitHub username
+        ii. getGitHub()
+        iii. getRole -- Overridden to return Engineer
+    d. Prompts for Intern will also include:
+        i. school
+        ii. getSchool()
+        iii. getRole() -- Overridden to return Intern
+4. Text
+5. Create an HTML file that displays a team roster with basic info.
+6. In develop folder run npm install
+    a. Install inquirer
+    b. Install jest
+7. Recommended workflow:
+    a. Run tests - npm run test
+    b. Create or update classes to pass a single text case
+    c. Repeat
+8. Recommended directory structure:
+    a. lib/     //classes and helper code
+    b. output/  //rendered output = team.html
+    c. templates/ //HTML template(s)
+        a. engineer
+        b. intern
+        c. main -- Employee?
+        d. manager
+    d. test/    //jest tests
+        i. Employee.test.js
+        ii. Engineer.test.js
+        iii. Intern.test.js
+        iv. Manager.test.js
+    e. app.js   //Runs the application
+9. Create HTML templates, create placeholder character the identifies where dynamic markup begins and ends:
+    a. main.html
+    b. engineer.html
+    c. intern.html
+    d. manager.html
+10. Prompt user to build a team consisting of:
+    a. Manager
+    b. Engineers - any number
+    c. Interns - any number
+11. Generate team.html page in output
+12. Each team member needs to include:
+    a. Name
+    b. Role
+    c. Id
+    d. Role-specific property (school, link to GitHub profile or office number)
+13. Use Validation to ensure that info provided is in proper format - strings, numbers, etc
+14. Add app to portfolio*/
 
 const Manager = require("./lib/Manager");
-const Intern = require("./lib/Intern");
 const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const inquirer = require("inquirer");
+const path = require("path");
+const fs = require("fs");
+const util = require("util");
+const jest = require('jest');
+const ValidationEmployee = require('./validation/ValidationEmployee');
+const ValidationEngineer = require('./validation/ValidationEngineer');
+const ValidationIntern = require('./validation/ValidationIntern');
+const ValidationManager = require('./validation/ValidationManager');
 
-// ===== START FUNCTION ===== 
-async function start(){
-    console.log("Let's make your Dream Team!");
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-    // Set Variable to hold HTML
-    let teamHTML = "";
+const render = require("./lib/htmlRenderer");
 
-    // Variable to hold number of team members
-    let teamSize;
 
-    // First Question to ask to set up loop
-    await inquirer.prompt(
+//DONE -- Write code to use inquirer to gather information about the development team members,
+// and to create objects for each team member (using the correct classes as blueprints!)
+
+console.log("Let's compile your team! Teams must consist of at least one manager and any number/combination of Engineers and Interns.")
+
+const writeFileAsync = util.promisify(fs.writeFile);
+//let teamHTML = "";
+
+let teamArray = []
+
+let teamSize;
+
+
+     return inquirer.prompt(
         {
-            type: "number",
-            message: "How many people are in your team?",
-            name: "noOfTeamMem"
+        type: 'number',
+        name: 'team',
+        message: 'How many team members do you need for your project?'
         }
-    )
-    .then((data) => {
+     )
 
-        // Number of team members placed in teamSize for scope purposes.
-        // 1 is added start from 1 rather than 0 for user understanding.
-        teamSize = data.noOfTeamMem + 1;
-    });
-    
-    // If Team Size is 0, will end program
-    if (teamSize === 0){
-        console.log("I guess there is no one on your team...");
-        return;
-    }
-    
-    // Loop begins to ask questions depending on the size of the team
-    for(i = 1; i < teamSize; i++){
+        .then((info) => {
 
-        // Global variables set
-        let name;
-        let id;
-        let title;
-        let email;
+            teamSize = info.team;
 
-        // Prompts user to answer the basic questions of the employee
-        await inquirer.prompt([ 
-            {
-                type: "input",
-                message: `What is employee (${i})'s name?`,
-                name: "name"
-            },
-            {
-                type: "input",
-                message: `What is the employee (${i})'s id?`,
-                name: "id"
-            },
-            {
-                type: "input",
-                message: `What is the employee (${i})'s Email?`,
-                name: "email"
-            },
-            {
-                type: "list",
-                message: `what the employee (${i})'s title?`,
-                name: "title",
-                choices: ["Engineer", "Intern", "Manager"]
-            }
-        ])
-        .then((data) => {
-
-            // Takes data from user and places value in global variables
-            name = data.name;
-            id = data.id;
-            title = data.title;
-            email = data.email;
         });
-
-        // Switch Case depending on the title of the employee
-        switch (title){
-            case "Manager":
-
-                // ask user of Manager's Office Number
-                await inquirer.prompt([
-                    {
-                        type: "input",
-                        message: "What is your Manager's Office Number?",
-                        name: "officeNo"
-                    }
-                ])
-                .then((data) => {
-
-                    // Create a new object with all avaiable user input data
-                    const manager = new Manager(name, id, email, data.officeNo);
-
-                    // Reads and places HTML from manager.html in teamMemever Variable
-                    teamMember = fs.readFileSync("templates/manager.html");
-
-                    // Uses eval() to pass template literals from html files.
-                    // Adds the string to the team HTML.
-                    teamHTML = teamHTML + "\n" + eval('`'+ teamMember +'`');
-                });
-                break;
-
-            //Steps Similar to Manager but for intern
-            case "Intern":
-                await inquirer.prompt([
-                    {
-                        type: "input",
-                        message: "What school is your Intern attending?",
-                        name: "school"
-                    }
-                ])
-                .then((data) => {
-                    const intern = new Intern(name, id, email, data.school);
-                    teamMember = fs.readFileSync("templates/intern.html");
-                    teamHTML = teamHTML + "\n" + eval('`'+ teamMember +'`');
-                });
-                break;
-
-            //Steps Similar to Manager but for engineer
-            case "Engineer":
-                await inquirer.prompt([
-                    {
-                        type: "input",
-                        message: "What is your Engineer's GitHub?",
-                        name: "github"
-                    }
-                ])
-                .then((data) => {
-                    const engineer = new Engineer(name, id, email, data.github);
-                    teamMember = fs.readFileSync("templates/engineer.html");
-                    teamHTML = teamHTML + "\n" + eval('`'+ teamMember +'`');
-                });
-                break;
-
-        } // End of Switch Case
-
-    } // End of For loop
-
-    // Reads main.html and places html in a variable
-    const mainHTML = fs.readFileSync("templates/main.html");
     
-    // Use eval to implement template literals in main.html and places teamHTML inside main template
-    teamHTML = eval('`'+ mainHTML +'`');
+    
 
-    // write file to new team.html file
-    fs.writeFile("output/team.html", teamHTML, function(err) {
+        if (teamSize <= 1) {
+            console.log("A team should consist of one manager and any number/combination of Engineers and Interns. Please add at least two members to your team.");
+            return;
+        };
+        
+    for (i = 1; i <= teamSize; i++) {
 
-        if (err) {
-          return console.log(err);
-        }
-      
-        console.log("Success!");
-      
-      });
+            let name;
+            let id;
+            let role;
+            let email;
 
-    // console.log(teamHTML);
+    function promptUser(){        
+    return inquirer.prompt([
+    {
+        type: 'input',
+        name: 'name',
+        message: `What is the name of team member number (${i})?`
+        },
+        {
+        type: 'input',
+        name: 'id',
+        message: `What is the id of team member number (${i})?`
+        },
+        {
+        type: 'input',
+        name: 'email',
+        message: `What is the email address of team member number (${i})?`
+            },
+        {
+        type: 'list',
+        name: 'role',
+        message: `What is the role of team member number (${i})?`,
+        choices: [
+            'Engineer',
+            'Intern',
+            'Manager'
+        ]},
+    ])
+
+    .then((info) => {
+
+        name = info.name;
+        id = info.id;
+        role = info.role;
+        email = info.email;
+
+    });
+}
+
+    switch (role) {
+        case "Manager":
+            function promptUser(){  
+            return inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'officeNumber',
+                    message: `What is the office number of the Manager?`
+                    }
+                ])
+                
+                .then((info) => {
+
+                    const manager = new Manager
+                    (name, id, email, info.officeNumber);
+                    console.log(manager)
+
+                teamMember = fs.readFileSync
+                ("templates/manager.html");
+
+                teamArray.push(manager);
+                //renderHTML();
+                });
+                break;
+            }
+
+        case "Engineer":
+
+            function promptUser(){  
+            return inquirer.prompt([
+                {
+                type: 'input',
+                name: 'github',
+                message: `What is the Engineer's GitHub username?`
+                            }
+                ])
+                        
+                .then((info) => {
+        
+                const engineer = new Engineer
+                (name, id, email, info.github);
+                console.log(engineer)
+        
+                teamMember = fs.readFileSync
+                ("templates/engineer.html");
+        
+                teamArray.push(engineer);
+                //renderHTML();
+                });
+                break;
+            }
+
+            case "Intern":
+                function promptUser(){  
+                return inquirer.prompt([
+                    {
+                    type: 'input',
+                    name: 'school',
+                    message: `What school does the Intern attend?`
+                                }
+                    ])
+                            
+                    .then((info) => {
+            
+                    const intern = new Intern
+                    (name, id, email, info.school);
+                    console.log(intern)
+            
+                    teamMember = fs.readFileSync
+                    ("templates/intern.html");
+            
+                    teamArray.push(intern);
+                    //renderHTML();
+                });
+                break;
+    }
 }
 
 
-start();
+// function to initialize program
+async function init() {
+    try {
+         const answers = await promptUser();
+
+         const renderHTML = renderHTML(answers);
+
+         await writeFileAsync(outputPath, renderHTML);
+         console.log('Successfully written to team.html');
+         
+    } catch (err) {
+         console.log(err);
+    }
+}
+
+// function call to initialize program
+init(); 
+
+}
+
+
+
+// After the user has input all employees desired, call the `render` function (required
+// above) and pass in an array containing all employee objects; the `render` function will
+// generate and return a block of HTML including templated divs for each employee!
+
+// After you have your html, you're now ready to create an HTML file using the HTML
+// returned from the `render` function. Now write it to a file named `team.html` in the
+// `output` folder. You can use the variable `outputPath` above target this location.
+// DONE -- Hint: you may need to check if the `output` folder exists and create it if it
+// does not.
+
+// DONE -- HINT: each employee type (manager, engineer, or intern) has slightly different
+// information; write your code to ask different questions via inquirer depending on
+// employee type.
+
+// DONE -- HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
+// and Intern classes should all extend from a class named Employee; see the directions
+// for further information. Be sure to test out each class and verify it generates an
+// object with the correct structure and methods. This structure will be crucial in order
+// for the provided `render` function to work! ```
