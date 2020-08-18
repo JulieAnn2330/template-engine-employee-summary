@@ -87,7 +87,7 @@ async function start() {
 
 console.log("Let's compile your team! Teams must consist of at least one manager and any number/combination of Engineers and Interns.")
 
-let teamHTML = "";
+//let teamHTML = "";
 
 let teamArray = []
 
@@ -171,13 +171,13 @@ let teamSize;
 
                     const manager = new Manager
                     (name, id, email, info.officeNumber);
-                    teamArray.push(manager);
+                    //teamArray.push(manager);
                     console.log(manager)
 
                 teamMember = fs.readFileSync
                 ("templates/manager.html");
 
-                teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
+                teamArray = teamArray + "\n" + eval('`' + teamMember + '`')
                 });
                 break;
 
@@ -195,13 +195,13 @@ let teamSize;
         
                 const engineer = new Engineer
                 (name, id, email, info.github);
-                teamArray.push(engineer);
+                //teamArray.push(engineer);
                 console.log(engineer)
         
                 teamMember = fs.readFileSync
                 ("templates/engineer.html");
         
-                teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
+                teamArray = teamArray + "\n" + eval('`' + teamMember + '`')
                 });
                 break;
 
@@ -219,13 +219,13 @@ let teamSize;
             
                     const intern = new Intern
                     (name, id, email, info.school);
-                    teamArray.push(intern);
+                   //teamArray.push(intern);
                     console.log(intern)
             
                     teamMember = fs.readFileSync
                     ("templates/intern.html");
             
-                    teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`')
+                    teamArray = teamArray + "\n" + eval('`' + teamMember + '`')
                 });
                 break;
     }
@@ -234,12 +234,11 @@ let teamSize;
 console.log(teamArray);
 
 
-
 const mainHTML = fs.readFileSync("templates/main.html");
 
-teamHTML = eval('`' + mainHTML + '`');
+teamArray = eval('`' + mainHTML + '`');
 
-fs.writeFile("output/team.html", teamHTML, function(err) {
+fs.writeFile("output/team.html", teamArray, function(err) {
 
     if (err) {
         return console.log(err);
