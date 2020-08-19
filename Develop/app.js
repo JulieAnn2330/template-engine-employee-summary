@@ -70,10 +70,6 @@ const path = require("path");
 const fs = require("fs");
 const util = require("util");
 const jest = require('jest');
-const ValidationEmployee = require('./validation/ValidationEmployee');
-const ValidationEngineer = require('./validation/ValidationEngineer');
-const ValidationIntern = require('./validation/ValidationIntern');
-const ValidationManager = require('./validation/ValidationManager');
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -85,7 +81,7 @@ const render = require("./lib/htmlRenderer");
 // and to create objects for each team member (using the correct classes as blueprints!)
 async function init() {
 
-console.log("Let's compile your team! Teams must consist of at least one manager and any number/combination of Engineers and Interns.")
+console.log("Let's compile your team! Teams must consist of at least one manager, one Engineer and one Intern.")
 
 let employees = []
 
@@ -105,8 +101,7 @@ let teamSize;
 
         });
 
-
-        if (teamSize <= 3) {
+        if (teamSize <= 2) {
             console.log("A team should consist of one manager and at least one Engineer and one Intern. Please add at least three members to your team.");
             return;
         };
