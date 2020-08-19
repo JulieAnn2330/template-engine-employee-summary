@@ -106,10 +106,10 @@ let teamSize;
         });
 
 
-        /*if (teamSize <= 1) {
-            console.log("A team should consist of one manager and any number/combination of Engineers and Interns. Please add at least two members to your team.");
+        if (teamSize <= 3) {
+            console.log("A team should consist of one manager and at least one Engineer and one Intern. Please add at least three members to your team.");
             return;
-        };*/
+        };
         
     for (i = 1; i <= teamSize; i++) {
 
@@ -221,24 +221,7 @@ let teamSize;
 }
 console.log(employees);
 
-   /* // Reads main.html and places html in a variable
-    const mainHTML = fs.readFileSync("templates/main.html");
-    
-    // Use eval to implement template literals in main.html and places teamHTML inside main template
-    employees = eval('`'+ mainHTML +'`');
-
-    // write file to new team.html file
-    fs.writeFile(outputPath, employees, function(err) {
-
-        if (err) {
-          return console.log(err);
-        }
-      
-        console.log("Success!");
-      
-      });*/
-
-      function renderHTML() {
+        function renderHTML() {
         console.log(employees)
         fs.writeFileSync(outputPath, render(employees), "utf-8")
         
@@ -249,11 +232,11 @@ console.log(employees);
 
 init();
 
-// After the user has input all employees desired, call the `render` function (required
+// DONE -- After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
-// After you have your html, you're now ready to create an HTML file using the HTML
+// DONE -- After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
 // DONE -- Hint: you may need to check if the `output` folder exists and create it if it
