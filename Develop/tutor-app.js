@@ -83,7 +83,7 @@ const render = require("./lib/htmlRenderer");
 
 //DONE -- Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-async function start() {
+async function init() {
 
 console.log("Let's compile your team! Teams must consist of at least one manager and any number/combination of Engineers and Interns.")
 
@@ -106,10 +106,10 @@ let teamSize;
         });
 
 
-        if (teamSize <= 1) {
+       /* if (teamSize <= 1) {
             console.log("A team should consist of one manager and any number/combination of Engineers and Interns. Please add at least two members to your team.");
             return;
-        };
+        };*/
         
     for (i = 1; i <= teamSize; i++) {
 
@@ -168,11 +168,8 @@ let teamSize;
                 .then((info) => {
 
                     const manager = new Manager
-                    (name, id, email, info.officeNumber);
+                    (name, id, email, role, info.officeNumber);
                     console.log(manager)
-
-                /*teamMember = fs.readFileSync
-                ("templates/manager.html");*/
 
                 teamArray.push(manager)
                 renderHTML();
@@ -193,11 +190,8 @@ let teamSize;
                 .then((info) => {
         
                 const engineer = new Engineer
-                (name, id, email, info.github);
+                (name, id, email, role, info.github);
                 console.log(engineer)
-        
-                /*teamMember = fs.readFileSync
-                ("templates/engineer.html");*/
         
                 teamArray.push(engineer)
                 renderHTML();
@@ -218,22 +212,17 @@ let teamSize;
                     .then((info) => {
             
                     const intern = new Intern
-                    (name, id, email, info.school);
+                    (name, id, email, role, info.school);
                     console.log(intern)
             
-                   /* teamMember = fs.readFileSync
-                    ("templates/intern.html");*/
-            
+                           
                     teamArray.push(intern)
                     renderHTML();
                    
                 });
                 break;
-            
-    }
+            }
 }
-
-//const teamHTML = fs.readFileSync("templates/main.html");
 
 function renderHTML() {
 console.log(teamArray)
@@ -241,10 +230,10 @@ console.log("renderHTML")
 fs.writeFileSync(outputPath, render(teamArray), "utf-8")
 
 }
-
+  console.log("Success!");
 }
 
-start();
+init();
 
 
 

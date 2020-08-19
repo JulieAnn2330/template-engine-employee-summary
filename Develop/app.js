@@ -83,13 +83,11 @@ const render = require("./lib/htmlRenderer");
 
 //DONE -- Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-async function start() {
+async function init() {
 
 console.log("Let's compile your team! Teams must consist of at least one manager and any number/combination of Engineers and Interns.")
 
-//let teamHTML = "";
-
-let teamArray = []
+let employees = []
 
 let teamSize;
 
@@ -101,9 +99,9 @@ let teamSize;
         }
      )
 
-        .then((info) => {
+        .then((answers) => {
 
-            teamSize = info.team;
+            teamSize = answers.team;
 
         });
 
@@ -147,33 +145,35 @@ let teamSize;
         ]},
     ])
 
-    .then((info) => {
+    .then((answers) => {
 
-        name = info.name;
-        id = info.id;
-        role = info.role;
-        email = info.email;
+        name = answers.name;
+        id = answers.id;
+        email = answers.email;
+        role = answers.role;
 
-    });
+       });
 
     switch (role) {
         case "Manager":
 
-            await inquirer.prompt([
-                {
+                await inquirer.prompt([
+                  {
                     type: 'input',
                     name: 'officeNumber',
                     message: `What is the office number of the Manager?`
                     }
                 ])
                 
-                .then((info) => {
+                .then((answers) => {
 
                     const manager = new Manager
-                    (name, id, email, info.officeNumber);
+                    (name, id, email, answers.officeNumber);
                     console.log(manager)
 
-                    teamArray.push(manager);
+                    employees.push(manager);
+                    renderHTML();
+                    console.log(manager)
                 });
                 break;
 
@@ -187,13 +187,14 @@ let teamSize;
                             }
                 ])
                         
-                .then((info) => {
+                .then((answers) => {
         
                 const engineer = new Engineer
-                (name, id, email, info.github);
+                (name, id, email, answers.github);
                 console.log(engineer)
                 
-                teamArray.push(engineer);
+                employees.push(engineer);
+                renderHTML();
                 });
                 break;
 
@@ -207,62 +208,47 @@ let teamSize;
                                 }
                     ])
                             
-                    .then((info) => {
+                    .then((answers) => {
             
                     const intern = new Intern
-                    (name, id, email, info.school);
+                    (name, id, email, answers.school);
                     console.log(intern)
             
-                    teamArray.push(intern);
+                    employees.push(intern);
+                    renderHTML();
                 });
                 break;
     }
 }
-console.log(teamArray);
+console.log(employees);
 
-// Reads main.html and places html in a variable
-const mainHTML = fs.readFileSync("templates/main.html");
+   /* // Reads main.html and places html in a variable
+    const mainHTML = fs.readFileSync("templates/main.html");
     
-// Use eval to implement template literals in main.html and places teamHTML inside main template
-teamHTML = eval('`'+ mainHTML +'`');
-    
-// write file to new team.html file
-fs.writeFile(outputPath, teamHTML, function(err) {
-    
-if (err) {
-    return console.log(err);
-}
-          
-    console.log("Success!");
-          
-     });
-    
-    console.log(teamHTML);
-    }
+    // Use eval to implement template literals in main.html and places teamHTML inside main template
+    employees = eval('`'+ mainHTML +'`');
 
-   start();
-    
-  
-    
+    // write file to new team.html file
+    fs.writeFile(outputPath, employees, function(err) {
 
+        if (err) {
+          return console.log(err);
+        }
+      
+        console.log("Success!");
+      
+      });*/
 
-/*teamArray = eval('`' + mainHTML + '`');
-
-fs.writeFile(outputPath, teamArray, function(err) {
-
-    if (err) {
-        return console.log(err);
-    }
-
-    console.log("Success!");
-
-});
-}*/
+      function renderHTML() {
+        console.log(employees)
+        fs.writeFileSync(outputPath, render(employees), "utf-8")
+        
+        }
+          console.log("Success!");
+        }
 
 
-
-
-
+init();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
