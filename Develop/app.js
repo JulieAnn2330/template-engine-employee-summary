@@ -164,8 +164,7 @@ let teamSize;
         
                     const manager = new Manager
                     (name, id, email, answers.officeNumber);
-                    console.log(manager)
-                    
+                                        
                     employees.push(manager);
                     renderHTML();
                     });
@@ -185,8 +184,7 @@ let teamSize;
         
                 const engineer = new Engineer
                 (name, id, email, answers.github);
-                console.log(engineer)
-                
+                                
                 employees.push(engineer);
                 renderHTML();
                 });
@@ -206,18 +204,15 @@ let teamSize;
             
                     const intern = new Intern
                     (name, id, email, answers.school);
-                    console.log(intern)
-            
+                                
                     employees.push(intern);
                     renderHTML();
                 });
                 break;
     }
 }
-console.log(employees);
 
         function renderHTML() {
-        console.log(employees)
         fs.writeFileSync(outputPath, render(employees), "utf-8")
         
         }
