@@ -110,10 +110,10 @@ let teamSize;
     
     
 
-        if (teamSize <= 1) {
+       /* if (teamSize <= 1) {
             console.log("A team should consist of one manager and any number/combination of Engineers and Interns. Please add at least two members to your team.");
             return;
-        };
+        };*/
         
     for (i = 1; i <= teamSize; i++) {
 

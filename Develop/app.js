@@ -166,16 +166,15 @@ let teamSize;
                 ])
                 
                 .then((answers) => {
-
+        
                     const manager = new Manager
                     (name, id, email, answers.officeNumber);
                     console.log(manager)
-
+                    
                     employees.push(manager);
                     renderHTML();
-                    console.log(manager)
-                });
-                break;
+                    });
+                    break;
 
         case "Engineer":
 
