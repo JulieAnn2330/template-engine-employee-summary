@@ -29,7 +29,7 @@
 <h3 id='description'>Description of Project</h3>
 <p>In this project the user is compiling a team for a project. The team consists of at least one Manager, one Engineer and one Intern, but can contain any number of Engineer and Interns as needed. Once the team is compiled, an html page is generated with a card containing pertinent team information for each member for easy access. This project was created as a homework assignment for the University of Kansas Bootcamp. This is a great resource for project managers so that they have employee information for projects at their fingertips. I learned a lot from this project about prompts, switch case and testing. All of my lib/js templates passed tesing. This project stands out because of the switch and case functions which allow specific questions to be asked about a team member based upon their role. Features of this project include a nicely styled html page that displays the team information and render functions to pull the information in. This project has been added to my updated Professional Portfolio, which can be found via this link: 
  
-<a href="https://github.com/JulieAnn2330/professional-portfolio">Julie Schaub Professional Portfolio</a></p><br>
+<a href="https://github.com/JulieAnn2330/professional-portfolio">Julie Schaub Professional Portfolio</a>
 
 The video demonstrating this project in use can be found via this link:
 
