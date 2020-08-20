@@ -33,7 +33,7 @@
 
 The video demonstrating this project in use can be found via this link:
 
-<a href="https://github.com/JulieAnn2330/professional-portfolio">Julie Schaub Professional Portfolio</a></p><br>
+<a href="https://drive.google.com/file/d/1zJIaTyGC10f-qSUnLI5OlDiS9ycrJC1H/view">Julie Schaub Template Engine-Employee Summary Demo</a></p><br>
 <a href="#top" id="start">(Back to Top of Page)</a><br>
 <br>
 <hr color= "slateblue" noshade>
